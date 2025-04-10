@@ -15,7 +15,7 @@ async function getUserById(id) {
 
 async function createUser(username, password) {
   await pool.query(
-    "INSERT INTO users (username, password, membership_status) VALUES ($1, $2, 0)",
+    "INSERT INTO users (username, password, membership_status, isAdmin) VALUES ($1, $2, false, true)",
     [username, password]
   );
 }

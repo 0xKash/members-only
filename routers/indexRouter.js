@@ -6,6 +6,7 @@ const {
   renderRegister,
   registerUser,
 } = require("../controllers/indexController");
+const { isAuth, isAdmin } = require("./authMiddleware");
 
 const indexRouter = Router();
 
@@ -19,17 +20,17 @@ indexRouter.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "/register",
-    successRedirect: "/success",
+    successRedirect: "/dashboard",
   })
 );
 
-indexRouter.get("/success", (req, res) =>
-  req.isAuthenticated() ? res.render("success") : res.send("Not authorizated")
-);
+indexRouter.get("/dashboard", isAuth, (req, res) => res.render("dashboard"));
 
 indexRouter.get("/logout", (req, res, next) => {
   req.logOut((err) => err && next(err));
   res.redirect("/login");
 });
+
+indexRouter.get("/admin", isAdmin, (req, res) => res.send("You are an admin"));
 
 module.exports = indexRouter;

@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     username VARCHAR ( 255 ),
     password VARCHAR ( 255 ),
-    membership_status INTEGER 
+    membership_status BOOLEAN,
+    isAdmin BOOLEAN
 );
 `;
 
