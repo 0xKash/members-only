@@ -11,6 +11,9 @@ const indexRouter = Router();
 
 indexRouter.get("/", renderIndex);
 
+indexRouter.get("/register", renderRegister);
+indexRouter.post("/register", registerUser);
+
 indexRouter.get("/login", renderLogin);
 indexRouter.post(
   "/login",
@@ -20,9 +23,13 @@ indexRouter.post(
   })
 );
 
-indexRouter.get("/register", renderRegister);
-indexRouter.post("/register", registerUser);
+indexRouter.get("/success", (req, res) =>
+  req.isAuthenticated() ? res.render("success") : res.send("Not authorizated")
+);
 
-indexRouter.get("/success", (req, res) => res.send("<h1>Success!</h1>"));
+indexRouter.get("/logout", (req, res, next) => {
+  req.logOut((err) => err && next(err));
+  res.redirect("/login");
+});
 
 module.exports = indexRouter;
