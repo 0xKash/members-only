@@ -29,3 +29,13 @@ exports.registerUser = async (req, res) => {
     console.log("fail");
   }
 };
+
+exports.setMembership = async (req, res) => {
+  if (req.body.password === "secret") {
+    db.setMembership(req.user.id, true);
+    res.redirect("/club-dashboard");
+  } else {
+    console.log(req.user);
+    res.redirect("/dashboard");
+  }
+};

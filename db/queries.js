@@ -20,8 +20,16 @@ async function createUser(username, password) {
   );
 }
 
+async function setMembership(id, membership) {
+  await pool.query("UPDATE users SET membership_status = $1 WHERE id = $2", [
+    membership.toString(),
+    id,
+  ]);
+}
+
 module.exports = {
   getUserByName,
   getUserById,
   createUser,
+  setMembership,
 };

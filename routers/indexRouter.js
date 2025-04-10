@@ -5,8 +5,9 @@ const {
   renderLogin,
   renderRegister,
   registerUser,
+  setMembership,
 } = require("../controllers/indexController");
-const { isAuth, isAdmin } = require("./authMiddleware");
+const { isAuth, isAdmin, isMember } = require("./authMiddleware");
 
 const indexRouter = Router();
 
@@ -24,13 +25,20 @@ indexRouter.post(
   })
 );
 
-indexRouter.get("/dashboard", isAuth, (req, res) => res.render("dashboard"));
-
 indexRouter.get("/logout", (req, res, next) => {
   req.logOut((err) => err && next(err));
   res.redirect("/login");
 });
 
-indexRouter.get("/admin", isAdmin, (req, res) => res.send("You are an admin"));
+indexRouter.get("/dashboard", isAuth, isMember, (req, res) =>
+  res.render("dashboard")
+);
+indexRouter.post("/dashboard", setMembership);
+
+indexRouter.get("/club-dashboard", (req, res) => res.render("club-dashboard"));
+
+indexRouter.get("/admin", isAdmin, (req, res) => res.render("admin-dashboard"));
+
+indexRouter.get("/message", (req, res) => res.render("message"));
 
 module.exports = indexRouter;

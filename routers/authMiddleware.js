@@ -1,6 +1,5 @@
 exports.isAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
-    console.log(req.user);
     next();
   } else {
     res
@@ -16,5 +15,13 @@ exports.isAdmin = (req, res, next) => {
     res.status(401).json({
       msg: "You are not authorized to view this resoruce, you are not an admin",
     });
+  }
+};
+
+exports.isMember = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.membership_status) {
+    res.redirect("/club-dashboard");
+  } else {
+    next();
   }
 };
