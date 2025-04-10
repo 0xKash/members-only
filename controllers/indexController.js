@@ -30,6 +30,17 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+exports.renderDashboard = async (req, res) => {
+  const messages = await db.getMessages();
+  if (req.user.isadmin) {
+    res.render("admin-dashboard", { messages: messages });
+  } else if (req.user.membership_status || req.user.isadmin) {
+    res.render("club-dashboard", { messages: messages });
+  } else {
+    res.render("dashboard", { messages: messages });
+  }
+};
+
 exports.setMembership = async (req, res) => {
   if (req.body.password === "secret") {
     db.setMembership(req.user.id, true);
@@ -38,4 +49,9 @@ exports.setMembership = async (req, res) => {
     console.log(req.user);
     res.redirect("/dashboard");
   }
+};
+
+exports.createMessage = async (req, res) => {
+  await db.createMessage(req.user.id, req.user.username, req.body.message);
+  res.redirect("/dashboard");
 };

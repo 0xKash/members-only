@@ -13,8 +13,8 @@ const SQL2 = `
 CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id VARCHAR ( 255 ),
-    message VARCHAR ( 255 ),
-    date DATE
+    user_name VARCHAR ( 255 ),
+    message VARCHAR ( 255 )
 );
 `;
 

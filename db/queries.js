@@ -15,7 +15,7 @@ async function getUserById(id) {
 
 async function createUser(username, password) {
   await pool.query(
-    "INSERT INTO users (username, password, membership_status, isAdmin) VALUES ($1, $2, false, true)",
+    "INSERT INTO users (username, password, membership_status, isAdmin) VALUES ($1, $2, false, false)",
     [username, password]
   );
 }
@@ -27,9 +27,26 @@ async function setMembership(id, membership) {
   ]);
 }
 
+async function createMessage(id, username, message) {
+  await pool.query(
+    "INSERT INTO messages (user_id, user_name, message) VALUES ($1, $2, $3)",
+    [id, username, message]
+  );
+}
+
+async function getMessages() {
+  const { rows } = await pool.query("SELECT * FROM messages");
+
+  console.log(rows);
+
+  return rows;
+}
+
 module.exports = {
   getUserByName,
   getUserById,
   createUser,
   setMembership,
+  createMessage,
+  getMessages,
 };

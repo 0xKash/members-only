@@ -8,3 +8,7 @@
   <button type="submit">Join Club</button>
 </form>
 <hr />
+<% messages.forEach(message => { %>
+<h2>Anonymous</h2>
+<p><%= message.message %></p>
+<% }); %>

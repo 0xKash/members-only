@@ -2,3 +2,8 @@
 <a href="/">Return to Home</a>
 <hr />
 <a href="/message">Post a message!</a>
+<hr />
+<% messages.forEach(message => { %>
+<h2><%= message.user_name %></h2>
+<p><%= message.message %></p>
+<% }); %>

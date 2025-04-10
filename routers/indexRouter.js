@@ -6,6 +6,8 @@ const {
   renderRegister,
   registerUser,
   setMembership,
+  createMessage,
+  renderDashboard,
 } = require("../controllers/indexController");
 const { isAuth, isAdmin, isMember } = require("./authMiddleware");
 
@@ -30,15 +32,14 @@ indexRouter.get("/logout", (req, res, next) => {
   res.redirect("/login");
 });
 
-indexRouter.get("/dashboard", isAuth, isMember, (req, res) =>
-  res.render("dashboard")
-);
+indexRouter.get("/dashboard", isAuth, isMember, renderDashboard);
 indexRouter.post("/dashboard", setMembership);
 
-indexRouter.get("/club-dashboard", (req, res) => res.render("club-dashboard"));
+indexRouter.get("/club-dashboard", renderDashboard);
 
-indexRouter.get("/admin", isAdmin, (req, res) => res.render("admin-dashboard"));
+indexRouter.get("/admin", isAdmin, renderDashboard);
 
 indexRouter.get("/message", (req, res) => res.render("message"));
+indexRouter.post("/message", createMessage);
 
 module.exports = indexRouter;
